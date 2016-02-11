@@ -2,6 +2,8 @@
 
 Libreria per usare facebook in python
 
+> Se lo puoi fare su facebook, lo puoi fare con questa libreria
+
 
 ## Caratteristiche ##
  
