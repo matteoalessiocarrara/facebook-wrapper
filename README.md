@@ -48,10 +48,10 @@ print "Il nome del gruppo è", group.name
 
 ## Requisiti ##
 
-	* [Cachetools](https://pypi.python.org/pypi/cachetools/1.0.0)
-	* [BeautifulSoup 4](http://www.crummy.com/software/BeautifulSoup/#Download)
-	* [Lxml](http://lxml.de/installation.html)
-	* Quelli della libreria [bot-virtualbrowser](https://github.com/matteoalessiocarrara/bot-virtualbrowser)
+ * [Cachetools](https://pypi.python.org/pypi/cachetools/1.0.0)
+ * [BeautifulSoup 4](http://www.crummy.com/software/BeautifulSoup/#Download)
+ * [Lxml](http://lxml.de/installation.html)
+ * Quelli della libreria [bot-virtualbrowser](https://github.com/matteoalessiocarrara/bot-virtualbrowser)
 
 
 ## Estendere la libreria ##
