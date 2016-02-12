@@ -168,8 +168,8 @@ class Facebook(object):
 		
 		Parametri:
 		
-		url: str
-			Url completo del profilo, es: https://m.facebook.com/profilo
+			url: str
+				Url completo del profilo, es: https://m.facebook.com/profilo
 		"""
 		
 		return fbobj.Profile(self, url)
@@ -182,8 +182,8 @@ class Facebook(object):
 		
 		Parametri:
 		
-		url: str
-			Url completo del gruppo, es: https://m.facebook.com/groups/1234567890
+			url: str
+				Url completo del gruppo, es: https://m.facebook.com/groups/1234567890
 		"""
 		return fbobj.Group(self, url)
 
