@@ -89,6 +89,7 @@ class Facebook(object):
 
 		self.human = human.Human(human_emulation_enabled)
 		self.browser = bot_virtualbrowser.BotBrowser()
+		self.caching_level = caching_level
 		
 		# Finestra del browser usata per il login, e usata dagli altri oggetti
 		# per lavorare su facebook
