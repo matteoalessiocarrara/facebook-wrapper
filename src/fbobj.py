@@ -664,7 +664,7 @@ class Group(GenericFbObj):
 		if start_offset is None:
 			logger.info("Scaricamento di una pagina")
 			self.__members_download_process(members_q, start_offset=0, start=0, 
-											sleep_before_login=0)
+											sleep_before_login=0, open_new_window=False)
 
 		else:
 			if processes == 1:
@@ -672,7 +672,7 @@ class Group(GenericFbObj):
 				
 				# Un solo processo equivale a chiamare normalmente il metodo
 				self.__members_download_process(members_q, start_offset, start=0,
-												sleep_before_login=0)
+												sleep_before_login=0, open_new_window=False)
 												
 			else:
 				logger.info("Download con più processi")
@@ -758,7 +758,7 @@ class Group(GenericFbObj):
 		
 		return members_l
 
-	def __members_download_process(self, queue, start_offset, start, sleep_before_login):
+	def __members_download_process(self, queue, start_offset, start, sleep_before_login, open_new_window=True):
 		"""
 		Metodo usato da self.get_members() per il download e l'estrazione dei profili
 		Questo è un metodo separato in modo da poter usare più processi
@@ -782,6 +782,9 @@ class Group(GenericFbObj):
 				ma molto probabilmente Facebook vi prenderà a calci in culo e si
 				bloccherà il programma con un errore di login
 				
+			open_new_window: bool
+				Se si sta scaricando con un processo solo, allora si può evitare 
+				di aprire una nuova finestra del browser		
 		
 		Eccezioni:
 		
@@ -793,32 +796,41 @@ class Group(GenericFbObj):
 				Come AttributeError
 		"""
 
-		# HACK Le schede del browser usano lo stesso oggetto requests.Session,
-		# ma non può essere utilizzato contemporanemanete da più processi
-		# requests.exceptions.SSLError: [Errno 1] _ssl.c:1429: error:1408F119:SSL routines:SSL3_GET_RECORD:decryption failed or bad record mac
+		# Questa verrà impostata sotto
+		window = None
 		
-		# Quindi si crea una nuova finestra per ogni processo
-		# E si lascia stare la prima finestra, che è quella usata normalmente dal
-		# processo genitore
+		if open_new_window:
+			# HACK Le schede del browser usano lo stesso oggetto requests.Session,
+			# ma non può essere utilizzato contemporanemanete da più processi
+			# requests.exceptions.SSLError: [Errno 1] _ssl.c:1429: error:1408F119:SSL routines:SSL3_GET_RECORD:decryption failed or bad record mac
+			
+			# Quindi si crea una nuova finestra per ogni processo
+			# E si lascia stare la prima finestra, che è quella usata normalmente dal
+			# processo genitore
+			
+			# XXX Non aprire una nuova finestra, quando si scarica con un processo solo
+			logger.debug("Creando una nuova finestra per il processo")
+			window = self.browser.windows_manager.add_window()
+	
+			# Ora va impostata come finestra predefinita del browser, per
+			# poter essere usata per il login
+			self.fb.bw = window
+	
+			# Sembra che facebook non accetti più login troppo veloci
+			logger.info("Aspettando %d s prima del login", sleep_before_login)
+			time.sleep(sleep_before_login)
+			
+			# HACK
+			# Forziamo il login in questa finestra
+			# XXX Bruttina questa operazione, non è un metodo pubblico...
+			self.fb.my_profile._MyProfile_NoBase__login()
 		
-		logger.debug("Creando una nuova finestra per il processo")
-		window = self.browser.windows_manager.add_window()
-
-		# Ora va impostata come finestra predefinita del browser, per
-		# poter essere usata per il login
-		self.fb.bw = window
-
-		# Sembra che facebook non accetti più login troppo veloci
-		logger.info("Aspettando %d s prima del login", sleep_before_login)
-		time.sleep(sleep_before_login)
-		
-		# HACK
-		# Forziamo il login in questa finestra
-		# XXX Bruttina questa operazione, non è un metodo pubblico...
-		self.fb.my_profile._MyProfile_NoBase__login()
-		
+		else:
+			logger.debug("Utilizzando la finestra già esistente")
+			window = self.bw
+			
 		tab = window.tabs_manager.add_tab()
-		
+
 
 		# Scarichiamo le pagine con i profili
 		while(True):
@@ -908,7 +920,10 @@ class Group(GenericFbObj):
 			# Passiamo alla pagina successiva
 			start += start_offset
 
-		window.close()
+		# Se non hai aperto una nuova finestra, allora l'hai a lasciar stare quella
+		# che c'è, perché è usata di default da tutti i metodi e deve rimanere aperta
+		if open_new_window:
+			window.close()
 
 	gid = property(get_id)
 	name = property(get_name)
