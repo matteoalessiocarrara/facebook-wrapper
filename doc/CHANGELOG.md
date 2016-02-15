@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2016/02/15 1.1.0 ##
 
+Changed
+ -  Adesso in fbobj.Group.get_members() non fa nuovamente il login, se si usa 
+    un solo processo
+ 
+ 
 ## 2016/02/12 1.0.1 ##
 
 Fixed
