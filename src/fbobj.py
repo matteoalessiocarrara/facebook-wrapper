@@ -562,6 +562,7 @@ class Group(GenericFbObj):
 		
 		return pag.title.text
 
+	# TODO Eliminare il contatore dei profili, è brutto... sostituirlo con logging.info
 	# TODO Gestire meglio l'emulazione umana in questo metodo
 	def get_members(self, out=sys.stderr, verbose=False, processes=1, queue_get_timeout=5,
 					sleep_before_login=5):
