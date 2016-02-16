@@ -28,9 +28,9 @@ import sys
 
 
 from cachetools import LRUCache, TTLCache, cached
+from lxml import etree
 from bs4 import BeautifulSoup
 
-import lxml
 
 
 from myexceptions import *
@@ -410,7 +410,7 @@ def MyProfile(profile_class, facebook_obj, email, password):
 			home_url = "https://www.facebook.com/"
 
 			content = self.bw.get(home_url).text
-			root = lxml.etree.HTML(content)
+			root = etree.HTML(content)
 			instance = root.xpath('//input[@id="reg_instance"]/@value')
 			return instance[0]
 	
@@ -418,7 +418,7 @@ def MyProfile(profile_class, facebook_obj, email, password):
 			"""Scrap post datas from login page"""
 	
 			# Get login form
-			root = lxml.etree.HTML(content)
+			root = etree.HTML(content)
 			form = root.xpath('//form[@id="login_form"][1]')
 	
 			# Can't find form tag
