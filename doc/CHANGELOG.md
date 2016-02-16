@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## 2016/02/16 1.1.1 ##
+
+Fixed
+ - Sistemato bug nel login, a causa della libreria lxml usata male
+
+ 
 ## 2016/02/15 1.1.0 ##
 
 Changed

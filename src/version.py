@@ -32,7 +32,7 @@ lib_name = "lib-fbwrapper"
 
 version_major = 1
 version_minor = 1
-version_patch = 0
+version_patch = 1
 
 version_str = "%d.%d.%d" % (version_major, version_minor, version_patch)
 
