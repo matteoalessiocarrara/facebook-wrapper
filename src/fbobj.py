@@ -390,6 +390,8 @@ def MyProfile(profile_class, facebook_obj, email, password):
 			login_res = tab.post(login_url, data=datas, cookies=cookies2)
 			res_title = BeautifulSoup(login_res.text, "lxml").title.text
 	
+			# XXX Questo controllo a volte non funziona, da login ok anche quando
+			# in realtà non è proprio così
 			if res_title != login_ok_title:
 				logger.error("Login fallito")
 	
@@ -928,3 +930,38 @@ class Group(GenericFbObj):
 	gid = property(get_id)
 	name = property(get_name)
 	members = property(get_members)
+
+
+class Friends(GenericFbObj):
+	"""Dovrebbe rappresentare la lista degli amici"""
+	
+	# TODO Finire di implementare
+	
+	def __init__(self, facebook_obj):
+		"""
+		Parametri:
+		
+			facebook_obj: fbwrapper.Facebook
+				Oggetto Facebook utilizzato per recuperare i dati
+		"""
+		super(Friends, self).__init__(facebook_obj, url=None)
+		
+
+	def get_online(self):
+		"""Restituisce una lista con il nome degli amici online"""
+		# TODO Migliorare output, aggiungere più informazioni per ogni profilo
+		
+		pag = self.bw.bs_get("https://m.facebook.com/buddylist.php")
+		
+		table_div = pag.find("div", attrs={'id': "root"}).div.div
+		profiles = table_div.findAll("table")
+		ret = []
+		
+		for profile in profiles:
+			ret.append(profile.a.text)
+			
+		return ret
+			
+	online = property(get_online)
+		
+

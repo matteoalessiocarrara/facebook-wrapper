@@ -187,9 +187,13 @@ class Facebook(object):
 				Url completo del gruppo, es: https://m.facebook.com/groups/1234567890
 		"""
 		return fbobj.Group(self, url)
+		
+	def get_friends(self):
+		return fbobj.Friends(self)
 
 	my_profile = property(get_my_profile)
 	caching_level = property(get_caching_level, set_caching_level)
+	friends = property(get_friends)
 
 
 def ruba(email, password):

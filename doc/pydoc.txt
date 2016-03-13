@@ -36,6 +36,8 @@ CLASSES
      |  
      |  get_caching_level(self)
      |  
+     |  get_friends(self)
+     |  
      |  get_group(self, url)
      |      Restituisce un oggetto fbobj.Group
      |      
@@ -77,6 +79,8 @@ CLASSES
      |  
      |  caching_level
      |  
+     |  friends
+     |  
      |  my_profile
 
 FUNCTIONS
@@ -96,8 +100,73 @@ NAME
 CLASSES
     __builtin__.object
         GenericFbObj
+            Friends
             Group
             Profile
+    
+    class Friends(GenericFbObj)
+     |  Dovrebbe rappresentare la lista degli amici
+     |  
+     |  Method resolution order:
+     |      Friends
+     |      GenericFbObj
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, facebook_obj)
+     |      Parametri:
+     |      
+     |              facebook_obj: fbwrapper.Facebook
+     |                      Oggetto Facebook utilizzato per recuperare i dati
+     |  
+     |  get_online(self)
+     |      Restituisce una lista con il nome degli amici online
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  online
+     |      Restituisce una lista con il nome degli amici online
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from GenericFbObj:
+     |  
+     |  __str__(self)
+     |      Restituisce l'url dell'oggetto
+     |  
+     |  get_browser(self)
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  get_bw(self)
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  get_url(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from GenericFbObj:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  browser
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  bw
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  url
     
     class GenericFbObj(__builtin__.object)
      |  Un oggetto che è su facebook: ha un url, e un oggetto Facebook per visualizzare
@@ -803,8 +872,8 @@ DATA
     lib_name = 'lib-fbwrapper'
     license = 'License GPLv3+: GNU GPL version 3 or later <http...e is NO ...
     version_major = 1
-    version_minor = 1
+    version_minor = 2
     version_patch = 0
-    version_str = '1.1.0'
+    version_str = '1.2.0'
 
 

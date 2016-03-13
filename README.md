@@ -45,8 +45,13 @@ group_url = raw_input("Inserisci l'url di un gruppo: ")
 group = fb.get_group(group_url)
 
 print "Il nome del gruppo è", group.name
-```
 
+# Altro
+print "Questi amici sono online:"
+
+for friend in fb.friends.online:
+	print friend
+```
 
 ## Requisiti ##
 

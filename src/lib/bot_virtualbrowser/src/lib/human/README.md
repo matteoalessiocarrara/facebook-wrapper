@@ -106,6 +106,33 @@ Queste sono contenute [in un repo separato](https://github.com/matteoalessiocarr
 La sintassi delle docstring è ispirata a quella usata in [NumPy](https://github.com/numpy/numpy/)
 
 
+## Branch ##
+
+### master ###
+
+Sul branch master c'è l'ultima versione stable, le mie librerie sono incluse
+come semplici sorgenti
+
+### beta-* ###
+
+Questo branch non esiste sempre, viene creato solo quando si decide di creare
+una nuova versione stable.  
+Su questo branch si ripulisce e si documenta il codice, eventualmente si sitemano
+i bug che ci sono.  
+Le librerie sono incluse come submodule.
+
+### dev ###
+
+Versione alpha: tutte le nuove funzioni sono qui, ma potrebbero essere da ricontrollare
+o scrivere meglio.  
+Le librerie sono incluse come submodule.
+
+### altri ###
+
+Gli altri branch sono per nuove funzioni ancora non incluse in dev, probabilmente 
+perché incomplete
+
+
 ## Altre informazioni ##
 
 > This is the Unix philosophy: Write programs that do one thing and do it well.

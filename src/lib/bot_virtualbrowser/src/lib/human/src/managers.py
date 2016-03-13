@@ -130,8 +130,10 @@ class Manager(object):
 			
 		except KeyError:
 			e = "Impossibile eliminare l'oggetto, id %s non valido" % id_
+			d = "Id validi: %s" % self.obj_dict.keys()
 			
 			logger.error(e)
+			logger.debug(d)
 			raise KeyError(e)
 
 	obj_dict = property(get_obj_dict)

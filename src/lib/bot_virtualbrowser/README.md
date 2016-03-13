@@ -80,10 +80,12 @@ essere un browser headless veloce e intuitivo.
 Vedere il readme di [human-virtualbrowser](https://github.com/matteoalessiocarrara/human-virtualbrowser)
 , su cui si basa.  
 
+
 ## Documentazione ##
 
 Questa libreria è solo un estensione di human-virtualbrowser, la documentazione
 è quindi divisa fra i due repo.
+
 
 ## Altre informazioni ##
 
