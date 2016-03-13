@@ -1,0 +1,879 @@
+Help on module fbwrapper:
+
+NAME
+    fbwrapper - Oggetto principale
+
+CLASSES
+    __builtin__.object
+        Facebook
+    
+    class Facebook(__builtin__.object)
+     |  Il sito, visto da un profilo
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, email, password, profile_class=<class 'fbobj.Profile'>, human_emulation_enabled=True, caching_level=0)
+     |      Parametri:
+     |      
+     |              email: str
+     |              
+     |              password: str
+     |              
+     |              profile_class: fbobj.Profile
+     |                      La classe dalla quale deve derivare fbobj.MyProfile_NoBase
+     |              
+     |              human_emulation_enabled: bool
+     |                      Attiva o disattiva la modalità di emulazione umana, che cerca di
+     |                      ingannare l'intelligenza artificiale di Facebook facendogli credere
+     |                      che il bot non è un bot
+     |              
+     |              caching_level: int
+     |                      È possibile usare una cache per evitare di dover recuperare troppo
+     |                      spesso alcune informazioni dal server. Questo velocizza la libreria,
+     |                      ma in alcuni casi i dati potrebbero essere non aggiornati.
+     |                      Sono disponibili vari livelli di caching, vedere il dizionario 
+     |                      shared.caching_levels
+     |  
+     |  get_caching_level(self)
+     |  
+     |  get_friends(self)
+     |  
+     |  get_group(self, url)
+     |      Restituisce un oggetto fbobj.Group
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              url: str
+     |                      Url completo del gruppo, es: https://m.facebook.com/groups/1234567890
+     |  
+     |  get_my_profile(self)
+     |  
+     |  get_profile(self, url)
+     |      Restituisce un oggetto fbobj.Profile
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              url: str
+     |                      Url completo del profilo, es: https://m.facebook.com/profilo
+     |  
+     |  set_caching_level(self, level)
+     |      Parametri:
+     |      
+     |              level: int
+     |                      È possibile usare una cache per evitare di dover recuperare troppo
+     |                      spesso alcune informazioni dal server. Questo velocizza la libreria,
+     |                      ma in alcuni casi i dati potrebbero essere non aggiornati.
+     |                      Sono disponibili vari livelli di caching, vedere il dizionario 
+     |                      shared.caching_levels
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  caching_level
+     |  
+     |  friends
+     |  
+     |  my_profile
+
+FUNCTIONS
+    ruba(email, password)
+        Paura eh? xD
+
+DATA
+    caching_levels = {'disabled': 0, 'offline': 3, 'safe': 1, 'unsafe': 2}
+    logger = <logging.Logger object>
+
+
+Help on module fbobj:
+
+NAME
+    fbobj - Oggetti di Facebook
+
+CLASSES
+    __builtin__.object
+        GenericFbObj
+            Friends
+            Group
+            Profile
+    
+    class Friends(GenericFbObj)
+     |  Dovrebbe rappresentare la lista degli amici
+     |  
+     |  Method resolution order:
+     |      Friends
+     |      GenericFbObj
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, facebook_obj)
+     |      Parametri:
+     |      
+     |              facebook_obj: fbwrapper.Facebook
+     |                      Oggetto Facebook utilizzato per recuperare i dati
+     |  
+     |  get_online(self)
+     |      Restituisce una lista con il nome degli amici online
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  online
+     |      Restituisce una lista con il nome degli amici online
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from GenericFbObj:
+     |  
+     |  __str__(self)
+     |      Restituisce l'url dell'oggetto
+     |  
+     |  get_browser(self)
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  get_bw(self)
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  get_url(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from GenericFbObj:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  browser
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  bw
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  url
+    
+    class GenericFbObj(__builtin__.object)
+     |  Un oggetto che è su facebook: ha un url, e un oggetto Facebook per visualizzare
+     |  l'url
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, facebook_obj, url)
+     |      Imposta self.fb e self.url
+     |      
+     |      
+     |      Parametri:
+     |              
+     |              facebook_obj: fbwrapper.Facebook
+     |                      L'oggetto Facebook utilizzato per visualizzare l'url
+     |              
+     |              url: str
+     |                      Url dell'oggetto
+     |  
+     |  __str__(self)
+     |      Restituisce l'url dell'oggetto
+     |  
+     |  get_browser(self)
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  get_bw(self)
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  get_url(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  browser
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  bw
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  url
+    
+    class Group(GenericFbObj)
+     |  Method resolution order:
+     |      Group
+     |      GenericFbObj
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, facebook_obj, url)
+     |      Parametri:
+     |      
+     |              facebook_obj: fbwrapper.Facebook
+     |                      L'oggetto Facebook con il quale visualizzare questo gruppo
+     |                      
+     |              url: str
+     |                      Url completo del gruppo, es: https://m.facebook.com/groups/1234
+     |  
+     |  get_id(self)
+     |      Restituisce l'id del gruppo, un numero usato come identificatore su Facebook
+     |      Attenzione: l'id è un numero, ma viene restituita una stringa
+     |  
+     |  get_members(self, out=<open file '<stderr>', mode 'w'>, verbose=False, processes=1, queue_get_timeout=5, sleep_before_login=5)
+     |      Parametri:
+     |      
+     |              out: file
+     |                      Dove verrà scritto il contatore dei download (sys.stdout/sys.stderr/...),
+     |                      attivabile con verbose
+     |                      
+     |              verbose: bool
+     |                      Se true, scrive su out il numero di profili attualmente scaricati
+     |                      
+     |              processes: int
+     |                      Il numero di processi da utilizzare per il download
+     |                      ATTENZIONE: usando troppi processi Facebook potrebbe dare un errore
+     |                      di login per i troppi tentativi; inoltre questo potrebbe rallentare
+     |                      invece che velocizzare se il gruppo è piccolo, visto che ogni processo
+     |                      deve rifare il login. Potrebbe metterci di più a fare il login 
+     |                      in ogni processo, che a scaricare i profili con un processo solo
+     |                      
+     |              queue_get_timeout: int
+     |                      Quanti secondi aspettare che arrivi un profilo dai processi, prima
+     |                      di considerare i profili finiti
+     |                      
+     |              sleep_before_login: int
+     |                      Tempo di attesa fra il login di ogni processo. Può essere anche 0,
+     |                      ma molto probabilmente Facebook vi prenderà a calci in culo e si 
+     |                      bloccherà il programma con un errore di login
+     |      
+     |      
+     |      Restituisce una lista di dizionari. Ogni dizionario rappresenta un profilo
+     |      con alcune informazioni.
+     |      
+     |      Descrizione delle chiavi:
+     |      
+     |              image: str
+     |                      Link alla (piccola) immagine del profilo visualizzata nella lista
+     |              
+     |              name: str
+     |              
+     |              info: str
+     |                      Alcune informazioni sul profilo, per es: "Admin · Joined over a
+     |              year ago"
+     |              
+     |              url:  str
+     |                      Link al profilo 
+     |              
+     |              add_friend: str
+     |                      Link per aggiungere il profilo agli amici. ATTENZIONE: il link 
+     |                      non funziona se siamo loggati con un profilo diverso da quello usato
+     |                      per ottenere questo link
+     |              
+     |              table_id: str
+     |                       Un'informazione che si trova nel codice HTML
+     |  
+     |  get_name(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  gid
+     |      Restituisce l'id del gruppo, un numero usato come identificatore su Facebook
+     |      Attenzione: l'id è un numero, ma viene restituita una stringa
+     |  
+     |  members
+     |      Parametri:
+     |      
+     |              out: file
+     |                      Dove verrà scritto il contatore dei download (sys.stdout/sys.stderr/...),
+     |                      attivabile con verbose
+     |                      
+     |              verbose: bool
+     |                      Se true, scrive su out il numero di profili attualmente scaricati
+     |                      
+     |              processes: int
+     |                      Il numero di processi da utilizzare per il download
+     |                      ATTENZIONE: usando troppi processi Facebook potrebbe dare un errore
+     |                      di login per i troppi tentativi; inoltre questo potrebbe rallentare
+     |                      invece che velocizzare se il gruppo è piccolo, visto che ogni processo
+     |                      deve rifare il login. Potrebbe metterci di più a fare il login 
+     |                      in ogni processo, che a scaricare i profili con un processo solo
+     |                      
+     |              queue_get_timeout: int
+     |                      Quanti secondi aspettare che arrivi un profilo dai processi, prima
+     |                      di considerare i profili finiti
+     |                      
+     |              sleep_before_login: int
+     |                      Tempo di attesa fra il login di ogni processo. Può essere anche 0,
+     |                      ma molto probabilmente Facebook vi prenderà a calci in culo e si 
+     |                      bloccherà il programma con un errore di login
+     |      
+     |      
+     |      Restituisce una lista di dizionari. Ogni dizionario rappresenta un profilo
+     |      con alcune informazioni.
+     |      
+     |      Descrizione delle chiavi:
+     |      
+     |              image: str
+     |                      Link alla (piccola) immagine del profilo visualizzata nella lista
+     |              
+     |              name: str
+     |              
+     |              info: str
+     |                      Alcune informazioni sul profilo, per es: "Admin · Joined over a
+     |              year ago"
+     |              
+     |              url:  str
+     |                      Link al profilo 
+     |              
+     |              add_friend: str
+     |                      Link per aggiungere il profilo agli amici. ATTENZIONE: il link 
+     |                      non funziona se siamo loggati con un profilo diverso da quello usato
+     |                      per ottenere questo link
+     |              
+     |              table_id: str
+     |                       Un'informazione che si trova nel codice HTML
+     |  
+     |  name
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from GenericFbObj:
+     |  
+     |  __str__(self)
+     |      Restituisce l'url dell'oggetto
+     |  
+     |  get_browser(self)
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  get_bw(self)
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  get_url(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from GenericFbObj:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  browser
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  bw
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  url
+    
+    class Profile(GenericFbObj)
+     |  Method resolution order:
+     |      Profile
+     |      GenericFbObj
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, facebook_obj, url)
+     |      Parametri:
+     |      
+     |              facebook_obj: fbwrapper.Facebook
+     |                      Oggetto Facebook utilizzato per visualizzare questo profilo
+     |                      
+     |              url: str
+     |                      Url completo del profilo, es: https://m.facebook.com/profilo
+     |  
+     |  get_gender(self)
+     |      Restituisce "bho" nel caso non lo trovi
+     |      
+     |      Eccezioni:
+     |      
+     |              KeyError
+     |                      Manca una costante per la lingua del profilo
+     |  
+     |  get_nickname(self)
+     |      Estrae il nickname dall'url
+     |      Non tutti i profili hanno un nickname, a volte potrebbe restituire roba
+     |      tipo profile.php?id=1234567890
+     |  
+     |  get_profile_picture_large(self)
+     |  
+     |  get_profile_picture_medium(self, album_list_url_suffix='/photos')
+     |      Restituisce il link all'immagine del profilo, o una stringa vuota
+     |      in caso di errore
+     |      Questo metodo non sempre funziona, perché non sempre è disponible un'immagine
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              album_list_url_suffix: str
+     |                      La stringa da aggiungere dopo a "https://m.facebook.com/" + self.nickname
+     |                      per andare alla pagina con la lista degli album. 
+     |              
+     |      
+     |      Eccezioni:
+     |      
+     |              KeyError
+     |                      Questo metodo attualmente non funziona con la lingua del profilo
+     |  
+     |  get_profile_picture_small(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  gender
+     |      Restituisce "bho" nel caso non lo trovi
+     |      
+     |      Eccezioni:
+     |      
+     |              KeyError
+     |                      Manca una costante per la lingua del profilo
+     |  
+     |  nickname
+     |      Estrae il nickname dall'url
+     |      Non tutti i profili hanno un nickname, a volte potrebbe restituire roba
+     |      tipo profile.php?id=1234567890
+     |  
+     |  profile_picture_large
+     |  
+     |  profile_picture_medium
+     |      Restituisce il link all'immagine del profilo, o una stringa vuota
+     |      in caso di errore
+     |      Questo metodo non sempre funziona, perché non sempre è disponible un'immagine
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              album_list_url_suffix: str
+     |                      La stringa da aggiungere dopo a "https://m.facebook.com/" + self.nickname
+     |                      per andare alla pagina con la lista degli album. 
+     |              
+     |      
+     |      Eccezioni:
+     |      
+     |              KeyError
+     |                      Questo metodo attualmente non funziona con la lingua del profilo
+     |  
+     |  profile_picture_small
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from GenericFbObj:
+     |  
+     |  __str__(self)
+     |      Restituisce l'url dell'oggetto
+     |  
+     |  get_browser(self)
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  get_bw(self)
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  get_url(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from GenericFbObj:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  browser
+     |      Il browser utilizzato per visualizzare questo oggetto
+     |      Scorciatoia per self.fb.browser
+     |  
+     |  bw
+     |      La finestra del browser nella quale siamo loggati su fb, utilizzata per
+     |      visualizzare questo oggetto
+     |      
+     |      Scorciatoia per self.fb.bw
+     |  
+     |  url
+
+FUNCTIONS
+    MyProfile(profile_class, facebook_obj, email, password)
+        La classe MyProfile_NoBase dovrebbe derivare da fbobj.Profile.
+        Ma in pratica deve derivare da una classe variabile, perché fbobj.Profile 
+        può essere esteso da librerie esterne e in quel caso anche MyProfile_NoBase
+        dovrebbe derivare dalla versione estesa
+        
+        
+        Parametri:
+        
+                profile_class: fbobj.Profile
+                        La classe dalla quale deve derivare MyProfile_NoBase
+                
+                facebook_obj: fbwrapper.Facebook
+                        L'oggetto Facebook nel quale dobbiamo loggarci con questo profilo
+                
+                email: str
+                
+                password: str
+
+DATA
+    caching_levels = {'disabled': 0, 'offline': 3, 'safe': 1, 'unsafe': 2}
+    logger = <logging.Logger object>
+
+
+Help on module human:
+
+NAME
+    human - Essere umano virtuale
+
+CLASSES
+    __builtin__.object
+        Human
+        HumanPart
+            Brain
+            Hand
+    
+    class Brain(HumanPart)
+     |  Method resolution order:
+     |      Brain
+     |      HumanPart
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, human)
+     |      Parametri:
+     |      
+     |              human: Human
+     |                      L'uomo al quale appartiene questo cervello
+     |  
+     |  process(self, min_time, max_time, msg=None)
+     |      L'uomo sta elaborando delle informazioni.
+     |      Blocca il processo per un  tempo casuale compreso fra min_time e max_time 
+     |      (in secondi)
+     |      Stampa msg con logger.info()
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from HumanPart:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Hand(HumanPart)
+     |  Method resolution order:
+     |      Hand
+     |      HumanPart
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, human, writing_speed=160)
+     |      Parametri:
+     |      
+     |              human: Human
+     |                      L'uomo al quale appartiene questa mano
+     |                      
+     |              writing_speed: int
+     |                      Velocità di scrittura, unità di misura caratteri al minuto. Ci sono
+     |                      alcuni valori predefinit nel dizionario self.writing_speeds
+     |  
+     |  get_writing_speed(self)
+     |  
+     |  set_writing_speed(self, characters_per_minute)
+     |  
+     |  write(self, text)
+     |      Fa finta di scrivere il testo
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  writing_speed
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  writing_speeds = {'advanced': 480, 'composition': 76, 'fast': 160, 'fa...
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from HumanPart:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class Human(__builtin__.object)
+     |  Un essere umano virtuale :)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, enabled=True)
+     |  
+     |  disable(self)
+     |  
+     |  do(self, min_time, max_time, msg=None)
+     |      L'uomo sta facendo qualcosa. 
+     |      Blocca il processo per un  tempo casuale compreso fra min_time e max_time 
+     |      (in secondi)
+     |      Stampa msg con logger.info()
+     |  
+     |  enable(self)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class HumanPart(__builtin__.object)
+     |  Un pezzo di uomo
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, human)
+     |      Imposta self.human
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              human: Human
+     |                      L'uomo al quale appartiene questo oggetto
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+
+DATA
+    logger = <logging.Logger object>
+
+
+Help on module shared:
+
+NAME
+    shared - Definizioni condivise
+
+DATA
+    caching_levels = {'disabled': 0, 'offline': 3, 'safe': 1, 'unsafe': 2}
+
+
+Help on module myexceptions:
+
+NAME
+    myexceptions - Eccezioni della libreria
+
+CLASSES
+    exceptions.Exception(exceptions.BaseException)
+        ConstError
+        LoginError
+    
+    class ConstError(exceptions.Exception)
+     |  Il codice prima funzionava e ora non funziona più, una "costante" è cambiata
+     |  
+     |  Method resolution order:
+     |      ConstError
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.Exception:
+     |  
+     |  __init__(...)
+     |      x.__init__(...) initializes x; see help(type(x)) for signature
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from exceptions.Exception:
+     |  
+     |  __new__ = <built-in method __new__ of type object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.BaseException:
+     |  
+     |  __delattr__(...)
+     |      x.__delattr__('name') <==> del x.name
+     |  
+     |  __getattribute__(...)
+     |      x.__getattribute__('name') <==> x.name
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __getslice__(...)
+     |      x.__getslice__(i, j) <==> x[i:j]
+     |      
+     |      Use of negative indices is not supported.
+     |  
+     |  __reduce__(...)
+     |  
+     |  __repr__(...)
+     |      x.__repr__() <==> repr(x)
+     |  
+     |  __setattr__(...)
+     |      x.__setattr__('name', value) <==> x.name = value
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(...)
+     |      x.__str__() <==> str(x)
+     |  
+     |  __unicode__(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from exceptions.BaseException:
+     |  
+     |  __dict__
+     |  
+     |  args
+     |  
+     |  message
+    
+    class LoginError(exceptions.Exception)
+     |  Login rifiutato da fb
+     |  
+     |  Method resolution order:
+     |      LoginError
+     |      exceptions.Exception
+     |      exceptions.BaseException
+     |      __builtin__.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, message, res_title, res_text, email, password, *args)
+     |      Imposta self.res_title, self.res_text, self.email, self.password
+     |      
+     |      
+     |      Parametri:
+     |      
+     |              res_title:
+     |                      Il titolo della pagina HTML restituita
+     |                      
+     |              res_text:
+     |                      L'HTML della pagina restituita
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes inherited from exceptions.Exception:
+     |  
+     |  __new__ = <built-in method __new__ of type object>
+     |      T.__new__(S, ...) -> a new object with type S, a subtype of T
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from exceptions.BaseException:
+     |  
+     |  __delattr__(...)
+     |      x.__delattr__('name') <==> del x.name
+     |  
+     |  __getattribute__(...)
+     |      x.__getattribute__('name') <==> x.name
+     |  
+     |  __getitem__(...)
+     |      x.__getitem__(y) <==> x[y]
+     |  
+     |  __getslice__(...)
+     |      x.__getslice__(i, j) <==> x[i:j]
+     |      
+     |      Use of negative indices is not supported.
+     |  
+     |  __reduce__(...)
+     |  
+     |  __repr__(...)
+     |      x.__repr__() <==> repr(x)
+     |  
+     |  __setattr__(...)
+     |      x.__setattr__('name', value) <==> x.name = value
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(...)
+     |      x.__str__() <==> str(x)
+     |  
+     |  __unicode__(...)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from exceptions.BaseException:
+     |  
+     |  __dict__
+     |  
+     |  args
+     |  
+     |  message
+
+DATA
+    logger = <logging.Logger object>
+
+
+Help on module version:
+
+NAME
+    version
+
+DESCRIPTION
+    Informazioni sulla libreria - contiene le informazioni solitamente ottenibili con 
+    il parametro --version nei software GNU
+
+DATA
+    bot_virtualbrowser_version_required = 1
+    copyright = 'Copyright (C) 2015 - 2016 Matteo Alessio Carrara'
+    lib_name = 'lib-fbwrapper'
+    license = 'License GPLv3+: GNU GPL version 3 or later <http...e is NO ...
+    version_major = 1
+    version_minor = 2
+    version_patch = 0
+    version_str = '1.2.0'
+
+
