@@ -54,11 +54,10 @@ class Profile:
 		self.__f.get_driver().get("https://www.facebook.com/" + self.__url + "/likes")
 		
 		likes = []
-		while True:
-			likes += self.__f.get_driver().find_elements_by_xpath("id('pagelet_timeline_medley_likes')/div[2]/div[1]/ul/li/div/div/div/div/div[2]/div[1]/a")
-			
+		while True:			
 			try:
 				self.__f.get_driver().find_element_by_xpath("id('timeline-medley')/div/div[2]/div[1]/div/div/h3")
+				likes = self.__f.get_driver().find_elements_by_xpath("id('pagelet_timeline_medley_likes')/div[2]/div[1]/ul/li/div/div/div/div/div[2]/div[1]/a")
 				break
 			except NoSuchElementException:
 				self.__f.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
