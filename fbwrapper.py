@@ -3,10 +3,15 @@
 # Copyright 2016 Matteo Alessio Carrara <sw.matteoac@gmail.com>
 
 import json
+import logging
 from sys import argv
 
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import *
 
 
 class Facebook:
@@ -14,16 +19,56 @@ class Facebook:
 	def __init__(self, username, password):
 		self.__init_driver()
 		self.__login(username, password)
-		
-	
+
+
 	def __init_driver(self):
 		firefoxCap = DesiredCapabilities.FIREFOX
 		firefoxCap["marionette"] = True
 		self.__driver = webdriver.Firefox(capabilities = firefoxCap)
 
+		
+	def get_driver(self):
+		return self.__driver		
+
 	
 	def __login(self, username, password):
-		self.__driver.get("https://mbasic.facebook.com")
-		self.__driver.find_element_by_name("email").send_keys(username)
-		self.__driver.find_element_by_name("pass").send_keys(password)
-		self.__driver.find_element_by_name("login").click()
+		self.get_driver().get("https://mbasic.facebook.com")
+		self.get_driver().find_element_by_name("email").send_keys(username)
+		self.get_driver().find_element_by_name("pass").send_keys(password)
+		self.get_driver().find_element_by_name("login").click()
+		WebDriverWait(self.get_driver(), 10).until(EC.title_is("Facebook"))
+		
+		
+	def get_profile(self, url):
+		return Profile(self, url)
+
+
+class Profile:
+
+	def __init__(self, facebook_object, url):
+		"""Url senza prefisso"""
+		self.__url = url
+		self.__f = facebook_object
+		
+	def get_likes(self):
+		self.__f.get_driver().get("https://www.facebook.com/" + self.__url + "/likes")
+		
+		likes = []
+		while True:
+			likes += self.__f.get_driver().find_elements_by_xpath("id('pagelet_timeline_medley_likes')/div[2]/div[1]/ul/li/div/div/div/div/div[2]/div[1]/a")
+			
+			try:
+				self.__f.get_driver().find_element_by_xpath("id('timeline-medley')/div/div[2]/div[1]/div/div/h3")
+				break
+			except NoSuchElementException:
+				self.__f.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
+		
+		logging.info("Copiando elaborando i like trovati (%d)" % len(likes))
+		ret = []
+		for like in likes:
+			t = like.text
+			logging.debug(t)
+			ret.append(t)
+			
+		return ret
+		

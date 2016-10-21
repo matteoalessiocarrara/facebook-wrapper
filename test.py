@@ -3,13 +3,15 @@
 # Copyright 2016 Matteo Alessio Carrara <sw.matteoac@gmail.com>
 
 from sys import argv
+import logging
+
 import fbwrapper
 
 
 try:
-	username, password = argv[1:3]
+	username, password, profile = argv[1:4]
 except IndexError:
-	exit("Uso: test.py username password")
+	exit("Uso: test.py username password profile")
 
-
-fbwrapper.Facebook(username, password)
+logging.getLogger().setLevel(logging.DEBUG)
+print(fbwrapper.Facebook(username, password).get_profile(profile).get_likes())
