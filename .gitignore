@@ -1,2 +1,4 @@
 *.pyc
 geckodriver.log
+test.py
+

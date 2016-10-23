@@ -12,6 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import *
+from selenium.webdriver.common.by import By
 
 
 class Facebook:
@@ -41,6 +42,26 @@ class Facebook:
 		
 	def get_profile(self, url, url_is_id=False):
 		return Profile(self, url, url_is_id)
+		
+		
+	def people_search(self, query):
+		self.get_driver().get("https://www.facebook.com")
+		self.get_driver().find_element_by_name("q").send_keys(query)
+		self.get_driver().find_element_by_name("q").send_keys(Keys.ENTER)
+
+		WebDriverWait(self.get_driver(), 10).until(EC.visibility_of_element_located((By.ID, "browse_lhc_filter_pagelet")))
+		
+		try:
+			self.get_driver().find_element_by_id("empty_result_error")
+			return [{}]
+		except NoSuchElementException:
+			links = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
+			names = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+			r = []
+			for i in range(len(links)):
+				r.append({"url": links[i].get_attribute("href"), "name": names[i].text})
+			
+			return r
 
 
 class Profile:
