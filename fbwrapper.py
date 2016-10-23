@@ -45,16 +45,25 @@ class Facebook:
 
 class Profile:
 
-	def __init__(self, facebook_object, url):
+	def __init__(self, facebook_object, url, url_is_id=False):
 		"""Url senza prefisso"""
 		self.__url = url
+		self.__url_is_id = url_is_id
 		self.__f = facebook_object
 		
 	def get_likes(self):
-		self.__f.get_driver().get("https://www.facebook.com/" + self.__url + "/likes")
+		if not self.__url_is_id:
+			URL = "https://www.facebook.com/" + self.__url + "/likes"
+		else:
+			URL = "https://www.facebook.com/" + self.__url + "&sk=likes"
+
+		self.__f.get_driver().get(URL)
+		if self.__f.get_driver().current_url != URL:
+			logging.warning("Il profilo " + self.__url + " non permette la visione dei mi piace")
+			return []
 		
 		likes = []
-		while True:			
+		while True:	
 			try:
 				self.__f.get_driver().find_element_by_xpath("id('timeline-medley')/div/div[2]/div[1]/div/div/h3")
 				likes = self.__f.get_driver().find_elements_by_xpath("id('pagelet_timeline_medley_likes')/div[2]/div[1]/ul/li/div/div/div/div/div[2]/div[1]/a")
