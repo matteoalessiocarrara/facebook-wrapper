@@ -39,8 +39,8 @@ class Facebook:
 		WebDriverWait(self.get_driver(), 10).until(EC.title_is("Facebook"))
 		
 		
-	def get_profile(self, url):
-		return Profile(self, url)
+	def get_profile(self, url, url_is_id=False):
+		return Profile(self, url, url_is_id)
 
 
 class Profile:
