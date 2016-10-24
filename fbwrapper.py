@@ -119,7 +119,7 @@ class Profile:
 			except NoSuchElementException:
 				self.__f.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
 		
-		logging.info("Copiando elaborando i like trovati (%d)" % len(likes))
+		logging.info("Elaborando i like trovati (%d)" % len(likes))
 		ret = []
 		for like in likes:
 			t = like.text
