@@ -43,7 +43,7 @@ class Facebook:
 	def get_profile(self, url):
 		return Profile(self, url)
 		
-		
+
 	def people_search(self, query, max_items=None):
 		self.get_driver().get("https://www.facebook.com")
 		self.get_driver().find_element_by_name("q").send_keys(query)
@@ -96,9 +96,10 @@ class Profile:
 	def __init__(self, facebook_object, url):
 		"""Url senza prefisso facebook.com ne /"""
 		self.__url = url
-		self.__url_is_id = True if url.startswith("profile.php?id=") else False
+		self.__url_is_id = Profile.nick_is_id(url)
 		self.__f = facebook_object
-		
+
+	
 	def get_likes(self):
 		if not self.__url_is_id:
 			URL = "https://www.facebook.com/" + self.__url + "/likes"
@@ -127,4 +128,17 @@ class Profile:
 			ret.append(t)
 			
 		return ret
+
+		
+	@staticmethod
+	def nick_is_id(nick):
+		return nick.startswith("profile.php?id=")
+	
+	
+	@staticmethod
+	def nick_from_url(url):
+		"""https://facebook.com/foobar"""
+		return url.split("/")[3].split("?")[0] if not Profile.nick_is_id(url.split("/")[3]) else url.split("/")[3]
+	
+	
 		
