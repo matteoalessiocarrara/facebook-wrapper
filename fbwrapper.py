@@ -44,22 +44,49 @@ class Facebook:
 		return Profile(self, url, url_is_id)
 		
 		
-	def people_search(self, query):
+	def people_search(self, query, max_items=None):
 		self.get_driver().get("https://www.facebook.com")
 		self.get_driver().find_element_by_name("q").send_keys(query)
 		self.get_driver().find_element_by_name("q").send_keys(Keys.ENTER)
 
-		WebDriverWait(self.get_driver(), 10).until(EC.visibility_of_element_located((By.ID, "browse_lhc_filter_pagelet")))
+		WebDriverWait(self.get_driver(), 20).until(EC.visibility_of_element_located((By.ID, "browse_lhc_filter_pagelet")))
 		
 		try:
 			self.get_driver().find_element_by_id("empty_result_error")
 			return [{}]
 		except NoSuchElementException:
-			links = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
-			names = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
 			r = []
+			links = []
+			names = []
+			
+			try:
+				# Andiamo alla lista completa
+				self.get_driver().find_element_by_xpath("id('BrowseResultsContainer')/div[1]/div[3]/footer[1]/a[1]").click()
+				WebDriverWait(self.get_driver(), 10).until(EC.visibility_of_element_located((By.ID, "leftCol")))
+				
+				while (True):
+					if (max_items != None) and (len(links) >= max_items):
+						break
+
+					links = self.get_driver().find_elements_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]//div/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
+					names = self.get_driver().find_elements_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]//div/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+				
+					# XXX
+					if self.get_driver().find_element_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]/div[last()]/div[1]/div[1]").text == "End of Results":
+						break
+					else:
+						self.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
+					
+			except NoSuchElementException:
+				# C'è solo la prima pagina di risultati
+				links = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
+				names = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+		
 			for i in range(len(links)):
-				r.append({"url": links[i].get_attribute("href"), "name": names[i].text})
+				if (max_items != None) and (len(r) == max_items):
+					break
+				else:
+					r.append({"url": links[i].get_attribute("href"), "name": names[i].text})
 			
 			return r
 
