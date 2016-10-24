@@ -40,8 +40,8 @@ class Facebook:
 		WebDriverWait(self.get_driver(), 10).until(EC.title_is("Facebook"))
 		
 		
-	def get_profile(self, url, url_is_id=False):
-		return Profile(self, url, url_is_id)
+	def get_profile(self, url):
+		return Profile(self, url)
 		
 		
 	def people_search(self, query, max_items=None):
@@ -93,10 +93,10 @@ class Facebook:
 
 class Profile:
 
-	def __init__(self, facebook_object, url, url_is_id=False):
-		"""Url senza prefisso"""
+	def __init__(self, facebook_object, url):
+		"""Url senza prefisso facebook.com ne /"""
 		self.__url = url
-		self.__url_is_id = url_is_id
+		self.__url_is_id = True if url.startswith("profile.php?id=") else False
 		self.__f = facebook_object
 		
 	def get_likes(self):
