@@ -1,2 +1,4 @@
 *.pyc
-*.autosave
+geckodriver.log
+test.py
+
