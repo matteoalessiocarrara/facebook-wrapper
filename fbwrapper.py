@@ -16,6 +16,7 @@ from selenium.webdriver.common.by import By
 
 
 class Facebook:
+	MAX_PAGE_LOADING_TIME = 120
 	
 	def __init__(self, username, password):
 		self.__init_driver()
@@ -37,7 +38,7 @@ class Facebook:
 		self.get_driver().find_element_by_name("email").send_keys(username)
 		self.get_driver().find_element_by_name("pass").send_keys(password)
 		self.get_driver().find_element_by_name("login").click()
-		WebDriverWait(self.get_driver(), 10).until(EC.title_is("Facebook"))
+		WebDriverWait(self.get_driver(), self.MAX_PAGE_LOADING_TIME).until(EC.title_is("Facebook"))
 		
 		
 	def get_profile(self, url):
@@ -49,7 +50,7 @@ class Facebook:
 		self.get_driver().find_element_by_name("q").send_keys(query)
 		self.get_driver().find_element_by_name("q").send_keys(Keys.ENTER)
 
-		WebDriverWait(self.get_driver(), 20).until(EC.visibility_of_element_located((By.ID, "browse_lhc_filter_pagelet")))
+		WebDriverWait(self.get_driver(), self.MAX_PAGE_LOADING_TIME).until(EC.visibility_of_element_located((By.ID, "browse_lhc_filter_pagelet")))
 		
 		try:
 			self.get_driver().find_element_by_id("empty_result_error")
@@ -62,7 +63,7 @@ class Facebook:
 			try:
 				# Andiamo alla lista completa
 				self.get_driver().find_element_by_xpath("id('BrowseResultsContainer')/div[1]/div[3]/footer[1]/a[1]").click()
-				WebDriverWait(self.get_driver(), 10).until(EC.visibility_of_element_located((By.ID, "leftCol")))
+				WebDriverWait(self.get_driver(), self.MAX_PAGE_LOADING_TIME).until(EC.visibility_of_element_located((By.ID, "leftCol")))
 				
 				while (True):
 					if (max_items != None) and (len(links) >= max_items):
