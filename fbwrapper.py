@@ -61,7 +61,7 @@ class Facebook:
 			names = []
 			
 			try:
-				# Andiamo alla lista completa
+				# go to the complete list
 				self.get_driver().find_element_by_xpath("id('BrowseResultsContainer')/div[1]/div[3]/footer[1]/a[1]").click()
 				WebDriverWait(self.get_driver(), self.MAX_PAGE_LOADING_TIME).until(EC.visibility_of_element_located((By.ID, "leftCol")))
 				
@@ -72,14 +72,14 @@ class Facebook:
 					links = self.get_driver().find_elements_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]//div/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
 					names = self.get_driver().find_elements_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]//div/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
 				
-					# XXX
+					# FIXME it may not work with other languages
 					if self.get_driver().find_element_by_xpath("id('pagelet_loader_initial_browse_result')/div[1]/div[1]/div[last()]/div[1]/div[1]").text == "End of Results":
 						break
 					else:
 						self.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
 					
 			except NoSuchElementException:
-				# C'è solo la prima pagina di risultati
+				# there is only the first page of results
 				links = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]")
 				names = self.get_driver().find_elements_by_xpath("id('BrowseResultsContainer')/div[1]/div[2]/div/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
 		
@@ -95,7 +95,7 @@ class Facebook:
 class Profile:
 
 	def __init__(self, facebook_object, url):
-		"""Url senza prefisso facebook.com ne /"""
+		"""Url without domain"""
 		self.__url = url
 		self.__url_is_id = Profile.nick_is_id(url)
 		self.__f = facebook_object
@@ -109,7 +109,7 @@ class Profile:
 
 		self.__f.get_driver().get(URL)
 		if self.__f.get_driver().current_url != URL:
-			logging.warning("Il profilo " + self.__url + " non permette la visione dei mi piace")
+			logging.warning("Unable to retrieve the likes for profile " + self.__url)
 			return []
 		
 		likes = []
@@ -121,7 +121,7 @@ class Profile:
 			except NoSuchElementException:
 				self.__f.get_driver().execute_script("window.scrollTo(0, document.body.scrollHeight);")
 		
-		logging.info("Elaborando i like trovati (%d)" % len(likes))
+		logging.info("Processing found likes (%d)" % len(likes))
 		ret = []
 		for like in likes:
 			t = like.text

@@ -1,7 +1,8 @@
-# Attenzione: lavori in corso
+# Facebook Wrapper
+Library to use facebook in python
 
-## Per aggiornamenti
+## News & updates
 
-È possibile iscriversi al canale [telegram](https://telegram.me/matteoalessiocarrara) 
-od alla comoda pagina [facebook](https://www.facebook.com/matteoalessiocarrara).
+ * [Telegram](https://telegram.me/matteoalessiocarrara) 
+ * [Facebook](https://www.facebook.com/matteoalessiocarrara)
 
